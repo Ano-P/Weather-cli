@@ -1,0 +1,41 @@
+Features: City or location as terminal input, 2 api one for getting location one for getting weather
+Display: Location name, Location temperature and next 3 days high and low temperatures, Open meteo attribution
+Units: Imperial and metric(default: celsisus, other: Farenheit)[Can be controlled by user]
+Exceptions: Unknown locations with message
+Internet issues: handle with except and else
+
+
+Example: Weather for Wollongong
+
+Current temperature: 22°C
+
+Upcoming forecast:
+
+Monday       High: 25°C   Low: 17°C
+Tuesday      High: 23°C   Low: 16°C
+Wednesday    High: 26°C   Low: 18°C
+
+Weather data provided by Open-Meteo
+https://open-meteo.com/
+
+
+
+4 function:
+lookup, weather, display, main
+
+
+
+Lookup:(GeoCode)
+Gets input of city/country from user
+Takes input of city and country takes in from params of requests.get() and then finds the country/city
+Use an for loop if conditional to find the exact country/city and after finding it store it
+If if conditional works, extract latitude and longitude and pass it to the weather api thing
+
+Weather(forecastapi)
+Takes the latitude and longitude from lookup
+and then runs it and gives 4 things the weather forecast for today, the weather forecast for the next 2 days
+The highs and the lows for the next 3 days
+
+Formatting: Example above
+
+
