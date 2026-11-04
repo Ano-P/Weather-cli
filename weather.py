@@ -28,7 +28,6 @@ def lookup(name):#Looksup the place using Geocode api
 
 
 def weather(latitude, longitude, unit):#Forecast api taking the weather latitude longitude and place
-        #input = input("Input lat and long: ").strip()
         request = requests.get('https://api.open-meteo.com/v1/forecast', params={'latitude' : latitude, 'longitude' : longitude, 'current' : 'temperature_2m', 'daily' : 'temperature_2m_max,temperature_2m_min', 'forecast_days' : 4, 'temperature_unit' : unit, 'timezone' : 'auto'})
         data = request.json()
         current_temp = data['current']['temperature_2m']#gets current temperatures
@@ -41,11 +40,50 @@ def weather(latitude, longitude, unit):#Forecast api taking the weather latitude
 
 
 
-def formatting():#formats everything after getting the info
-    ...
+def formatting(weather_data, city, unit):#formats everything after getting the info
+    current_temp = weather_data['current_temp']
+    dates = weather_data['dates']
+    max_temp = weather_data['max_temp']
+    min_temp = weather_data['min_temp']
+ #Gets the values of min max temperatures as well as the dates and current temperatures
+    forecast_dates = dates[1:4]
+    forecast_max_temp = max_temp[1:4]
+    forecast_min_temp = min_temp[1:4]
+    x = zip(forecast_dates, forecast_max_temp, forecast_min_temp)
+
+    if unit == "celsius":
+        display_unit = "°C"
+    else:
+        display_unit = "°F"
+
+    y = []
+    for date, max_temp, min_temp in x:
+        daync = (f"{date}: High {max_temp}{display_unit} | Low {min_temp}{display_unit}") #day no current
+        y.append(daync)
+    oline = "\n".join(y)#one line
+
+    
+
+    report =f"""================================
+       {city.upper()} WEATHER
+================================
+
+CURRENT CONDITIONS
+Temperature: {current_temp}{display_unit}
+
+UPCOMING FORECAST
+
+{oline}
+
+--------------------------------
+Weather data provided by Open-Meteo
+https://open-meteo.com/
+"""
+return report
 
 
 
-weather()
+
+
 
 
