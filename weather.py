@@ -1,10 +1,14 @@
 import requests
-import sys
-import json
-
+import textwrap
 
 def main(): #Controls all the 3 functions and how they work.
-    ...
+    cc = input("Enter your city and country: ")
+    unit = input("Enter your preferred unit: ")
+    coordinates = lookup(cc)
+    lat, long = coordinates
+    weather_data = weather(lat, long, unit)
+    report = formatting(weather_data, cc, unit)
+    print(report)
 
 
 
@@ -61,25 +65,27 @@ def formatting(weather_data, city, unit):#formats everything after getting the i
         daync = (f"{date}: High {max_temp}{display_unit} | Low {min_temp}{display_unit}") #day no current
         y.append(daync)
     oline = "\n".join(y)#one line
+    forecast_block = textwrap.indent(oline, "        ")
+    report = textwrap.dedent(f"""
+        ================================
+            {city.upper()} WEATHER
+        ================================
 
-    
+        CURRENT CONDITIONS
+        Temperature: {current_temp}{display_unit}
 
-    report =f"""================================
-       {city.upper()} WEATHER
-================================
+        UPCOMING FORECAST\n\n{forecast_block}
+        --------------------------------
+        Weather data provided by Open-Meteo
+        https://open-meteo.com/
+    """).strip()
+    return report
 
-CURRENT CONDITIONS
-Temperature: {current_temp}{display_unit}
 
-UPCOMING FORECAST
 
-{oline}
 
---------------------------------
-Weather data provided by Open-Meteo
-https://open-meteo.com/
-"""
-return report
+if __name__ == "__main__":
+    main()
 
 
 
